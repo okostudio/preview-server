@@ -20,7 +20,7 @@ app.get('*', (req, res) => {
                   </head>
                   <div class="header">
                     <div class="left">Banner Preview Server</div>
-                    <div class="right">v1.00</div>
+                    <div class="right">v1.01</div>
                   </div>
                   <div class="wrapper">`;
         
