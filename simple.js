@@ -2,9 +2,26 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const fs = require('fs');
+const archiver = require('archiver');
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+let bannerFolders = [];
+
+// Define a route that handles the button click and calls the server function
+app.get('*/zip', (req, res) => {
+  console.log('Server function called!', req.path);
+  bannerFolders.forEach(banner => {
+    console.log("banner folder:", banner)
+  })
+  // ...
+  res.sendStatus(200);
+});
+
 app.get('*', (req, res) => {
+  // clear all previously stored banners folders
+  bannerFolders = [];
+
   const requestedPath = path.join(__dirname, 'public', req.path);
 
   fs.readdir(requestedPath, (err, files) => {
@@ -48,6 +65,9 @@ app.get('*', (req, res) => {
         if (isDirectory) {
           const isBanner = file.match(/(\d+)x(\d+)/);
           if (isBanner) {
+            // push path to zippable folder
+            bannerFolders.push(req.path+file)
+
             let width = isBanner[1];
             let height = isBanner[2];
             html += `<div class="item banner">
@@ -55,6 +75,14 @@ app.get('*', (req, res) => {
                       <iframe width="${width}" height="${height}" src="${req.path}${file}/index.html"></iframe>
                       <div>
                         <button>REPLAY</button>
+                        <button onclick="callServerFunction()">ZIP</button>
+                        <script>
+                          function callServerFunction() {
+                            fetch('./zip')
+                              .then(response => console.log('Server function called successfully'))
+                              .catch(error => console.error('Failed to call server function:', error));
+                          }
+                        </script>
                       </div>
                     </div>`;
           } 
@@ -85,6 +113,31 @@ app.get('*', (req, res) => {
     }
   });
 });
+
+const zipFolder = (folderPath, res) => {
+  if(!folderPath || !res){
+    console.log("folder path or response not good. bad response.")
+  }
+  // const folderPath = req.params.folder;
+  const zipName = `${folderPath}.zip`;
+
+  // create a writable stream to the response object with the appropriate headers
+  res.attachment(zipName);
+  const zipStream = archiver('zip', {});
+
+  // pipe the zip stream to the response object
+  zipStream.pipe(res);
+
+  // add all files in the folder to the zip archive
+  const files = fs.readdirSync(folderPath);
+  files.forEach((file) => {
+    const filePath = `${folderPath}/${file}`;
+    zipStream.file(filePath, { name: file });
+  });
+
+  // finalize the zip archive and end the response
+  zipStream.finalize();
+}
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
