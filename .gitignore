@@ -28,3 +28,6 @@ creds.js
 *.tsv
 *.tsv.gz
 *.xlsx
+
+# Banners folder
+clients/*
