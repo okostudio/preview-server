@@ -40,8 +40,8 @@ app.get('*', (req, res) => {
                     <div class="right">v1.01</div>
                   </div>
                   <div class="wrapper">`;
-        
-      if(req.path !== "/"){
+
+      if (req.path !== "/") {
         html += `<div class="item button-holder">
           <a class="button back" href="${req.path}../">back</a>
         </div>`
@@ -57,7 +57,7 @@ app.get('*', (req, res) => {
               <a class="button folder" href="${req.path}${file}">${file}</a>
             </div>`;
           }
-        } 
+        }
       });
       files.forEach(file => {
         const filePath = path.join(requestedPath, file);
@@ -66,7 +66,7 @@ app.get('*', (req, res) => {
           const isBanner = file.match(/(\d+)x(\d+)/);
           if (isBanner) {
             // push path to zippable folder
-            bannerFolders.push(req.path+file)
+            bannerFolders.push(req.path + file)
 
             let width = isBanner[1];
             let height = isBanner[2];
@@ -85,7 +85,7 @@ app.get('*', (req, res) => {
                         </script>
                       </div>
                     </div>`;
-          } 
+          }
         } else {
           const fileExt = path.extname(filePath);
           if (fileExt === '.jpg' || fileExt === '.png' || fileExt === '.gif') {
@@ -93,7 +93,7 @@ app.get('*', (req, res) => {
               <div class="label">${file}</div>
               <img src="${req.path}${file}"/>
             </div>`
-          } else if(fileExt === '.mp4'){
+          } else if (fileExt === '.mp4') {
             html += `<div class="item media video">
               <div class="label">${file}</div>
               <div class="video-container">
@@ -115,7 +115,7 @@ app.get('*', (req, res) => {
 });
 
 const zipFolder = (folderPath, res) => {
-  if(!folderPath || !res){
+  if (!folderPath || !res) {
     console.log("folder path or response not good. bad response.")
   }
   // const folderPath = req.params.folder;
@@ -139,6 +139,6 @@ const zipFolder = (folderPath, res) => {
   zipStream.finalize();
 }
 
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
+server.listen(3000, '0.0.0.0', () => {
+  console.log('Server is running on http://0.0.0.0:3000');
 });
