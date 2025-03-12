@@ -1,0 +1,89 @@
+.banner,
+.fade {
+    /* background: #f0f0f0; */
+    background: #000;
+    color: #fff;
+    font-family: 'Nobel';
+    font-size: 30px;
+}
+
+/* == SCENE / BACKGROUND ======================================== */
+.scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.bar {
+    position: absolute;
+    width: 2px;
+    left: 36px;
+    top: 35px;
+    background-color: #fff;
+    transform-origin: 0 0;
+    height: 3.0em;
+    margin-top: 0.15em;
+}
+
+.copy {
+    position: absolute;
+    top: 35px;
+    /* left: calc(21px + 0.7em); */
+    left: 57px;
+    /* font-size: 16px; */
+    line-height: 1.1;
+    text-align: left;
+    letter-spacing: -0.02em;
+}
+
+.word {
+    position: relative;
+    display: inline-block;
+}
+
+.copy .line {
+    position: relative;
+}
+
+.small {
+    font-size: 0.7em;
+}
+
+.cta {
+    transition: background 0.25s ease-out, color 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+}
+
+.cta {
+    position: absolute;
+    text-transform: uppercase;
+    /* font-weight: bold; */
+    bottom: 15px;
+    left: 57px;
+    font-size: 17px;
+    line-height: 1;
+    height: 2.2em;
+    overflow-y: hidden;
+    text-align: center;
+    border: 1px solid #fff;
+    padding: 0.55em 1.2em 0 1.2em;
+    background-color: transparent;
+    color: #fff;
+}
+
+.cta.over {
+    background-color: #fff;
+    color: #000;
+}
+
+.logo {
+    position: absolute;
+    width: 137px;
+    height: auto;
+    bottom: 15px;
+    right: 25px;
+}
+
+.logo.left {
+    right: unset;
+    left: 15px;
+}
